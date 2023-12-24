@@ -23,18 +23,18 @@ Point *random_walk(int number_of_points) {
     int random_value = GetRandomValue(0, 3);
 
     switch (random_value) {
-      case 0:
-        previous_point.y -= 1;
-        break;
-      case 1:
-        previous_point.x += 1;
-        break;
-      case 2:
-        previous_point.y += 1;
-        break;
-      case 3:
-        previous_point.x -= 1;
-        break;
+    case 0:
+      previous_point.y -= 1;
+      break;
+    case 1:
+      previous_point.x += 1;
+      break;
+    case 2:
+      previous_point.y += 1;
+      break;
+    case 3:
+      previous_point.x -= 1;
+      break;
     }
 
     points[i] = previous_point;
@@ -78,6 +78,8 @@ int main() {
     }
     EndDrawing();
   }
+
+  // Next I could add keyboard controls for zooming in and zooming out
 
   free(points1);
   free(points2);
