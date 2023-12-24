@@ -7,7 +7,7 @@
 #define SCREEN_WIDTH 1600
 #define SCREEN_HEIGHT 900
 #define NUMBER_OF_POINTS 10000
-#define JUMP_VALUE 8
+#define STEP_SIZE 6
 
 typedef struct {
   size_t x;
@@ -21,16 +21,16 @@ random_walk(Point *points, int number_of_steps) {
 
     switch (random_value) {
       case 0:
-        previous_point.y -= JUMP_VALUE;
+        previous_point.y -= 1;
         break;
       case 1:
-        previous_point.x += JUMP_VALUE;
+        previous_point.x += 1;
         break;
       case 2:
-        previous_point.y += JUMP_VALUE;
+        previous_point.y += 1;
         break;
       case 3:
-        previous_point.x -= JUMP_VALUE;
+        previous_point.x -= 1;
         break;
     }
 
@@ -38,10 +38,15 @@ random_walk(Point *points, int number_of_steps) {
   }
 }
 
-void draw(Point *points) {
-  for (int i = 0; i < NUMBER_OF_POINTS; i++) {
-    Point point_to_be_drawn = points[i];
-    DrawCircle(point_to_be_drawn.x, point_to_be_drawn.y, 2, GOLD);
+void draw(Point *points, Color color) {
+  for (int i = 0; i < NUMBER_OF_POINTS - 1; i++) {
+    Point p1 = points[i];
+    Point p2 = points[i + 1];
+
+    DrawLine(SCREEN_WIDTH / 2 + p1.x * STEP_SIZE,
+             SCREEN_HEIGHT / 2 + p1.y * STEP_SIZE,
+             SCREEN_WIDTH / 2 + p2.x * STEP_SIZE,
+             SCREEN_HEIGHT / 2 + p2.y * STEP_SIZE, color);
   }
 }
 
@@ -53,7 +58,7 @@ int main() {
   int initial_y = SCREEN_HEIGHT / 2;
 
   Point *points = malloc(NUMBER_OF_POINTS * sizeof(Point));
-  points[0] = (Point){initial_x, initial_y};
+  points[0] = (Point){0, 0};
 
   random_walk(points, NUMBER_OF_POINTS);
 
@@ -61,11 +66,12 @@ int main() {
     BeginDrawing();
     {
       ClearBackground(DARKGRAY);
-      draw(points);
+      draw(points, RED);
     }
     EndDrawing();
   }
 
+  free(points);
   CloseWindow();
 
   return 0;
