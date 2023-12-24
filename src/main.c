@@ -14,9 +14,12 @@ typedef struct {
   size_t y;
 } Point;
 
-random_walk(Point *points, int number_of_steps) {
+Point *random_walk(int number_of_points) {
+  Point *points = malloc(number_of_points * sizeof(Point));
+  points[0] = (Point){0, 0};
+
   Point previous_point = points[0];
-  for (size_t i = 1; i < number_of_steps; i++) {
+  for (size_t i = 1; i < number_of_points; i++) {
     int random_value = GetRandomValue(0, 3);
 
     switch (random_value) {
@@ -36,6 +39,8 @@ random_walk(Point *points, int number_of_steps) {
 
     points[i] = previous_point;
   }
+
+  return points;
 }
 
 void draw(Point *points, Color color) {
@@ -57,21 +62,27 @@ int main() {
   int initial_x = SCREEN_WIDTH / 2;
   int initial_y = SCREEN_HEIGHT / 2;
 
-  Point *points = malloc(NUMBER_OF_POINTS * sizeof(Point));
-  points[0] = (Point){0, 0};
-
-  random_walk(points, NUMBER_OF_POINTS);
+  Point *points1 = random_walk(NUMBER_OF_POINTS);
+  Point *points2 = random_walk(NUMBER_OF_POINTS);
+  Point *points3 = random_walk(NUMBER_OF_POINTS);
+  Point *points4 = random_walk(NUMBER_OF_POINTS);
 
   while (!WindowShouldClose()) {
     BeginDrawing();
     {
       ClearBackground(DARKGRAY);
-      draw(points, RED);
+      draw(points1, RED);
+      draw(points2, GREEN);
+      draw(points3, BLUE);
+      draw(points4, GOLD);
     }
     EndDrawing();
   }
 
-  free(points);
+  free(points1);
+  free(points2);
+  free(points3);
+  free(points4);
   CloseWindow();
 
   return 0;
