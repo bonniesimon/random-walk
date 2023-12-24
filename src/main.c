@@ -7,11 +7,11 @@
 #define SCREEN_WIDTH 1600
 #define SCREEN_HEIGHT 900
 #define NUMBER_OF_POINTS 10000
-#define STEP_SIZE 6
+#define STEP_SIZE 5
 
 typedef struct {
-  size_t x;
-  size_t y;
+  int x;
+  int y;
 } Point;
 
 Point *random_walk(int number_of_points) {
